@@ -18,14 +18,16 @@ from werkzeug.datastructures import  FileStorage
 
 from lib.upload_file import uploadfile
 
+import cv2
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['UPLOAD_FOLDER'] = 'data/'
+app.config['UPLOAD_FOLDER'] = 'resources/'
 app.config['THUMBNAIL_FOLDER'] = 'data/thumbnail/'
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
-ALLOWED_EXTENSIONS = set(['txt', 'gif', 'png', 'jpg', 'jpeg', 'bmp', 'rar', 'zip', '7zip', 'doc', 'docx'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 IGNORED_FILES = set(['.gitignore'])
 
 bootstrap = Bootstrap(app)
@@ -79,6 +81,7 @@ def upload():
             else:
                 # save file to disk
                 uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                print(filename)
                 files.save(uploaded_file_path)
 
                 # create thumbnail after saving
