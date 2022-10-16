@@ -57,20 +57,20 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span>Adicionar imagem</span>
                     <input type="file" name="file" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span>Enviar imagem</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
+                    <span>Cancelar envio da imagem</span>
                 </button>
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
+                    <span>Deletar imagem</span>
                 </button>
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
@@ -91,18 +91,15 @@
     <br>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Notes</h3>
+            <h3 class="panel-title">Resultados</h3>
         </div>
-        <div class="panel-body">
-            <ul>
-                <li>The maximum file size for uploads in this demo is <strong>50 MB</strong> (default file size is unlimited).</li>
-                <li>Only image files (<strong>JPEG,PNG</strong>) are allowed in this website.</li>
-
-                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
-                <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
-                <li>Built with Twitter's <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
-            </ul>
-        </div>
+            <div class="panel-display">
+                {% with messages = get_flashed_messages() %}
+                    {% for message in messages%}
+                        <p>{{baby_measure}}</p>
+                    {% endfor %}
+                {% endwith %}
+            </div>
     </div>
 </div>
 <!-- The blueimp Gallery widget -->

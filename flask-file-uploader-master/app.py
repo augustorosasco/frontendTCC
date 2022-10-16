@@ -14,17 +14,15 @@ import traceback
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import  FileStorage
+from werkzeug.datastructures import FileStorage
 
+import final_measurement
 from lib.upload_file import uploadfile
-
-import cv2
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['UPLOAD_FOLDER'] = 'resources/'
-app.config['THUMBNAIL_FOLDER'] = 'data/thumbnail/'
+app.config['UPLOAD_FOLDER'] = 'resources/images/'
+app.config['THUMBNAIL_FOLDER'] = 'resources/thumbnail/'
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -35,7 +33,7 @@ bootstrap = Bootstrap(app)
 
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def gen_file_name(filename):
@@ -53,7 +51,6 @@ def gen_file_name(filename):
 
 
 def create_thumbnail(image):
-
     base_width = 80
     img = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], image))
     w_percent = (base_width / float(img.size[0]))
@@ -62,7 +59,6 @@ def create_thumbnail(image):
     img.save(os.path.join(app.config['THUMBNAIL_FOLDER'], image))
 
     return True
-
 
 
 @app.route("/upload", methods=['GET', 'POST'])
@@ -81,25 +77,30 @@ def upload():
             else:
                 # save file to disk
                 uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                #sent_to_backup = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 print(filename)
                 files.save(uploaded_file_path)
+                #.save(sent_to_backup)
+                final_measurement.get_circumference(filename, 5, 'f')
+                #render_template('index.html', baby_measure=get_baby_head)
 
                 # create thumbnail after saving
                 if mime_type.startswith('image'):
                     create_thumbnail(filename)
-                
+
                 # get file size after saving
                 size = os.path.getsize(uploaded_file_path)
 
                 # return json for js call back
                 result = uploadfile(name=filename, type=mime_type, size=size)
-            
-            return simplejson.dumps({"files": [result.get_file()]})
+
+            return simplejson.dumps({"files": [result.get_file()]}), filename
 
     if request.method == 'GET':
         # get all file in ./data directory
-        files = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'],f)) and f not in IGNORED_FILES ]
-        
+        files = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if
+                 os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], f)) and f not in IGNORED_FILES]
+
         file_display = []
 
         for f in files:
@@ -123,14 +124,14 @@ def delete(filename):
 
             if os.path.exists(file_thumb_path):
                 os.remove(file_thumb_path)
-            
+
             return simplejson.dumps({filename: 'True'})
         except:
             return simplejson.dumps({filename: 'False'})
 
 
 # serve static files
-@app.route("/thumbnail/<string:filename>", methods=['GET'])
+@app.route("/resources/thumbnail/<string:filename>", methods=['GET'])
 def get_thumbnail(filename):
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename=filename)
 
@@ -138,6 +139,11 @@ def get_thumbnail(filename):
 @app.route("/data/<string:filename>", methods=['GET'])
 def get_file(filename):
     return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=filename)
+
+
+@app.route('/', methods=['POST'])
+def show_baby_measurement(measurement):
+    return render_template('index.html', baby_measure=measurement)
 
 
 @app.route('/', methods=['GET', 'POST'])
