@@ -6,13 +6,20 @@ import numpy as np
 import imutils
 import calculate
 
-measurements = []
+widths = []
+heights = []
+
 
 def midpoint(ptA, ptB):
-    return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
+    return (ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5
 
 
 def calculate_dimensions(images, months, gender):
+    if len(widths) > 0 and len(heights) > 0:
+        widths.clear()
+        heights.clear()
+    else:
+        pass
     for image_to_be_measured in images:
         image = cv2.imread(image_to_be_measured)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -59,14 +66,15 @@ def calculate_dimensions(images, months, gender):
             dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
             dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
-            pixels_per_metric = calculate.width(dB, months, gender)
+            pixels_per_metric = calculate.measures(dA, months, gender)
 
             height = dA / pixels_per_metric
             print('Altura: ', height)
             width = dB / pixels_per_metric
             print('Largura: ', width)
 
-            measurements.append(width)
+            widths.append(width)
+            heights.append(height)
 
             cv2.putText(orig, '{:.1f}cm'.format(height),
                         (int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
@@ -76,4 +84,4 @@ def calculate_dimensions(images, months, gender):
                         0.65, (255, 255, 255), 2)
             '''cv2.imshow('Image', orig)
             cv2.waitKey(0)'''
-    return measurements
+    return widths, heights

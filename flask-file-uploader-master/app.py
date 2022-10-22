@@ -1,10 +1,3 @@
-#!flask/bin/python
-
-# Author: Ngo Duy Khanh
-# Email: ngokhanhit@gmail.com
-# Git repository: https://github.com/ngoduykhanh/flask-file-uploader
-# This work based on jQuery-File-Upload which can be found at https://github.com/blueimp/jQuery-File-Upload/
-
 import os
 import PIL
 from PIL import Image
@@ -29,6 +22,9 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 IGNORED_FILES = set(['.gitignore'])
 
 bootstrap = Bootstrap(app)
+
+gender = ""
+age = ""
 
 
 def allowed_file(filename):
@@ -55,10 +51,21 @@ def create_thumbnail(image):
     img = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], image))
     w_percent = (base_width / float(img.size[0]))
     h_size = int((float(img.size[1]) * float(w_percent)))
-    img = img.resize((base_width, h_size), PIL.Image.ANTIALIAS)
+    img = img.resize((base_width, h_size), Image.Resampling.LANCZOS)
     img.save(os.path.join(app.config['THUMBNAIL_FOLDER'], image))
 
     return True
+
+
+@app.route('/', methods=['POST'])
+def get_arguments():
+    global gender
+    global age
+    gender = request.form.get('Genero')
+    age = request.form.get('idade')
+    print(gender)
+    print(age)
+    return render_template('index.html')
 
 
 @app.route("/upload", methods=['GET', 'POST'])
@@ -77,12 +84,9 @@ def upload():
             else:
                 # save file to disk
                 uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                #sent_to_backup = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 print(filename)
                 files.save(uploaded_file_path)
-                #.save(sent_to_backup)
-                final_measurement.get_circumference(filename, 5, 'f')
-                #render_template('index.html', baby_measure=get_baby_head)
+                final_measurement.get_circumference(filename, int(age), gender)
 
                 # create thumbnail after saving
                 if mime_type.startswith('image'):
@@ -139,11 +143,6 @@ def get_thumbnail(filename):
 @app.route("/data/<string:filename>", methods=['GET'])
 def get_file(filename):
     return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=filename)
-
-
-@app.route('/', methods=['POST'])
-def show_baby_measurement(measurement):
-    return render_template('index.html', baby_measure=measurement)
 
 
 @app.route('/', methods=['GET', 'POST'])
