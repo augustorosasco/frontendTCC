@@ -33,10 +33,6 @@ def allowed_file(filename):
 
 
 def gen_file_name(filename):
-    """
-    If file was exist already, rename it and return a new name
-    """
-
     i = 1
     while os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
         name, extension = os.path.splitext(filename)
@@ -82,26 +78,21 @@ def upload():
                 result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
 
             else:
-                # save file to disk
                 uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 print(filename)
                 files.save(uploaded_file_path)
                 final_measurement.get_circumference(filename, int(age), gender)
 
-                # create thumbnail after saving
                 if mime_type.startswith('image'):
                     create_thumbnail(filename)
 
-                # get file size after saving
                 size = os.path.getsize(uploaded_file_path)
 
-                # return json for js call back
                 result = uploadfile(name=filename, type=mime_type, size=size)
 
             return simplejson.dumps({"files": [result.get_file()]}), filename
 
     if request.method == 'GET':
-        # get all file in ./data directory
         files = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if
                  os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], f)) and f not in IGNORED_FILES]
 
@@ -134,13 +125,12 @@ def delete(filename):
             return simplejson.dumps({filename: 'False'})
 
 
-# serve static files
 @app.route("/resources/thumbnail/<string:filename>", methods=['GET'])
 def get_thumbnail(filename):
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename=filename)
 
 
-@app.route("/data/<string:filename>", methods=['GET'])
+@app.route("/resources/images/<string:filename>", methods=['GET'])
 def get_file(filename):
     return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=filename)
 

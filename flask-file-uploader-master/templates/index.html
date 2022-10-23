@@ -40,15 +40,19 @@
         <option value="24">24</option>
         </select>
 
+        <br>
+
         <label for="Genero">Selecione o sexo do recém-nascido</label>
         <select name="Genero" id="Genero">
         <option value="Feminino">Feminino</option>
         <option value="Masculino">Masculino</option>
         </select>
 
-        <button type="submit" class="btn btn-default" onclick="sendAlert();">
-            <i class="glyphicon glyphicon-bookmark"></i>
-            <span>Salvar informações</span>
+        <br>
+
+        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: #3633FF">
+            <i style="color: white" class="glyphicon glyphicon-ok"></i>
+            <span style="color: white">Salvar informações</span>
         </button>
     </form>
 
@@ -60,6 +64,7 @@
         }
     </script>
 
+    <br>
     <br>
 
     <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -90,12 +95,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Resultados</h3>
-            <button id="result-btn" type="button" onclick="window.location.reload();" class="btn btn-result results">
+            <button style="background-color: grey" id="result-btn" type="button" onclick="window.location.reload();" class="btn btn-result results">
                 <script>
                     document.getElementById("result-btn").style.display="none";
                 </script>
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                    <span>Exibir</span>
+                    <i style="color: white" class="glyphicon glyphicon-eye-open"></i>
+                    <span style="color: white">Exibir</span>
                 </button>
         </div>
             <div class="panel-display">
@@ -128,6 +133,12 @@
     function reappear() {document.getElementById("result-btn").style.display="block";}
 </script>
 
+<script>
+    function alertMeasurementDone() {
+        alert("Medição concluída!\n\n Clique no botão 'Exibir' para visualizar os resultados.");
+    }
+</script>
+
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
@@ -144,7 +155,7 @@
         </td>
         <td>
             {% if (!i && !o.options.autoUpload) { %}
-                <button onclick="reappear()" class="btn btn-primary start" disabled>
+                <button onclick="reappear();alertMeasurementDone();" class="btn btn-primary start" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>Enviar imagem</span>
                 </button>

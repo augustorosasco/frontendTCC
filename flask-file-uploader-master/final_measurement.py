@@ -58,7 +58,8 @@ def get_circumference(image_name, months, gender):
     flash(message2)
     message3 = 'A altura da cabeça é de aproximadamente: {0} cm.'.format('{:.2f}'.format(baby_sum_heights))
     flash(message3)
-    message4 = 'Leve estas medidas para o profissional da saúde responsável pelo seu bebê para confirmar o diagnóstico.'
+    message4 = 'Informe estas medidas para o profissional da saúde responsável pelo seu bebê para confirmar o ' \
+               'diagnóstico. '
     flash(message4)
     baby_heights.clear()
     baby_widths.clear()
