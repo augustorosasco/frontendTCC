@@ -52,13 +52,13 @@ def get_circumference(image_name, months, gender):
     baby_circ_by_height = (math.fsum(baby_heights) / len(baby_heights)) * 3.14
     print('C according to heights = ', round(baby_circ_by_height))
     final_circ = (baby_circ_by_width + baby_circ_by_height) / 2
-    message = 'O perímetro cranial de seu bebê é de aproximadamente: {0} cm.'.format(round(final_circ))
+    message = 'O perímetro cranial da sua criança é de aproximadamente: {0} cm.'.format(round(final_circ))
     flash(message)
     message2 = 'A largura da cabeça é de aproximadamente: {0} cm.'.format('{:.2f}'.format(baby_sum_widths))
     flash(message2)
     message3 = 'A altura da cabeça é de aproximadamente: {0} cm.'.format('{:.2f}'.format(baby_sum_heights))
     flash(message3)
-    message4 = 'Informe estas medidas para o profissional da saúde responsável pelo seu bebê para confirmar o ' \
+    message4 = 'Informe estas medidas para o profissional da saúde responsável pela sua criança para confirmar o ' \
                'diagnóstico. '
     flash(message4)
     baby_heights.clear()
