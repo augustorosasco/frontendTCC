@@ -2,12 +2,30 @@
 {% block title %}File Uploader{% endblock %}
 
 {% block page_content %}
+
+<body style="background-color:rgb(181, 196, 196);">
 <div class="container">
     <h1>USO DA VISÃO COMPUTACIONAL PARA A DETECÇÃO DE ASSIMETRIAS CRANIANAS EM RECÉM-NASCIDOS</h1>
     <br>
+    <style rel="stylesheet" type="text/css">
+        blockquote {
+            border-color: rgb(136, 143, 143)
+        }
+    </style>
+
     <blockquote>
-        <p>Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana Mackenzie<br>
+        <p>Projeto do Trabalho de Conclusão de Curso apresentado à Faculdade de Computação e Informática da Universidade Presbiteriana Mackenzie.
             Esse site tem como objetivo facilitar a avaliação dos recém-nascidos com assimetrias cranianas.</p>
+    </blockquote>
+
+    <blockquote>
+        <h4>Dicas:</h4>
+        <ul>
+            <li>Tire a foto de frente para a parte de cima da cabeça do seu bebê</li>
+            <li>Para um resultado mais preciso, o fundo da foto deve ser branco</li>
+            <li>Certifique-se que não há objetos na foto, como brinquedos</li>
+            <li>Extenções aceitas: png, jpg, jpeg</li>
+            </ul>
     </blockquote>
     <br>
 
@@ -49,8 +67,9 @@
         </select>
 
         <br>
+        <br>
 
-        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: #3633FF">
+        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: rgb(136, 143, 143)">
             <i style="color: white" class="glyphicon glyphicon-ok"></i>
             <span style="color: white">Salvar informações</span>
         </button>
@@ -64,7 +83,6 @@
         }
     </script>
 
-    <br>
     <br>
 
     <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
@@ -91,11 +109,12 @@
         </div>
         <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
     </form>
-    <br>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Resultados</h3>
-            <button style="background-color: grey" id="result-btn" type="button" onclick="window.location.reload();" class="btn btn-result results">
+
+
+    <div class="panel panel-default" style="background-color: rgb(136, 143, 143)">
+        <div class="panel-heading" style="background-color: rgb(136, 143, 143)">
+            <h3 style="color: wh " class="panel-title">Resultados </h3>
+            <button style="background-color: rgb(136, 143, 143)" id="result-btn" type="button" onclick="window.location.reload();" class="btn btn-result results">
                 <script>
                     document.getElementById("result-btn").style.display="none";
                 </script>
@@ -107,6 +126,7 @@
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages%}
+
                             <p>{{message}}</p>
                             <p>{{message2}}</p>
                             <p>{{message3}}</p>
@@ -189,9 +209,6 @@
                     <span>{%=file.name%}</span>
                 {% } %}
             </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
         </td>
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
@@ -249,4 +266,5 @@
 
 <script src="js/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
+</body>
 {% endblock %}
