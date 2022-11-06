@@ -8,26 +8,20 @@ import app
 from flask import flash
 
 
-def get_circumference(image_name, months, gender):
-    coin_img = cv2.imread('resources/reference/moeda.jpg')
-    image_path = 'resources/images/' + image_name
-    baby_img = cv2.imread(image_path)
-    final_baby_img = cv2.flip(baby_img, 1)
-    baby_inv = cv2.bitwise_not(baby_img)
+def get_circumference(baby_image, coin_image, months, gender):
+    final_baby_img = cv2.flip(baby_image, 1)
+    baby_inv = cv2.bitwise_not(baby_image)
     final_baby_inv_img = cv2.flip(baby_inv, 1)
-    inverted_coin = cv2.bitwise_not(coin_img)
+    inverted_coin = cv2.bitwise_not(coin_image)
     to_calculate_dimensions = []
 
-    concatenated_image_normal = concatenate.concat_tile_resize([[coin_img, final_baby_img]])
-    cv2.imwrite('resources/images_processed/merged_normal.jpg', concatenated_image_normal)
+    concatenated_image_normal = concatenate.concat_tile_resize([[coin_image, final_baby_img]])
     concatenated_image_with_inverted_coin = concatenate.concat_tile_resize([[inverted_coin, final_baby_img]])
-    cv2.imwrite('resources/images_processed/merged_with_inv_coin.jpg', concatenated_image_with_inverted_coin)
-    concatenated_image_with_inverted_baby = concatenate.concat_tile_resize([[coin_img, final_baby_inv_img]])
-    cv2.imwrite('resources/images_processed/merged_with_inv_baby.jpg', concatenated_image_with_inverted_baby)
+    concatenated_image_with_inverted_baby = concatenate.concat_tile_resize([[coin_image, final_baby_inv_img]])
 
-    to_calculate_dimensions.append('resources/images_processed/merged_normal.jpg')
-    to_calculate_dimensions.append(thresh.low('resources/images_processed/merged_with_inv_coin.jpg'))
-    to_calculate_dimensions.append(thresh.high('resources/images_processed/merged_with_inv_baby.jpg'))
+    to_calculate_dimensions.append(concatenated_image_normal)
+    to_calculate_dimensions.append(thresh.apply_low(concatenated_image_with_inverted_coin))
+    to_calculate_dimensions.append(thresh.apply_high(concatenated_image_with_inverted_baby))
 
     final_measurements = dimensions.calculate_dimensions(to_calculate_dimensions, months, gender)
     print('widths: ', final_measurements[0])

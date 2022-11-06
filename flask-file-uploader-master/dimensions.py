@@ -21,8 +21,7 @@ def calculate_dimensions(images, months, gender):
     else:
         pass
     for image_to_be_measured in images:
-        image = cv2.imread(image_to_be_measured)
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(image_to_be_measured, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
         edged = cv2.Canny(gray, 50, 100)
         edged = cv2.dilate(edged, None, iterations=1)
@@ -36,7 +35,7 @@ def calculate_dimensions(images, months, gender):
             if cv2.contourArea(c) < 100:
                 continue
 
-            orig = image.copy()
+            orig = image_to_be_measured.copy()
             box = cv2.minAreaRect(c)
             box = cv2.cv.BoxPoints(box) if imutils.is_cv2() else cv2.boxPoints(box)
             box = np.array(box, dtype='int')
@@ -82,6 +81,6 @@ def calculate_dimensions(images, months, gender):
             cv2.putText(orig, '{:.1f}cm'.format(width),
                         (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
                         0.65, (255, 255, 255), 2)
-            '''cv2.imshow('Image', orig)
-            cv2.waitKey(0)'''
+            cv2.imshow('Image', orig)
+            cv2.waitKey(0)
     return widths, heights

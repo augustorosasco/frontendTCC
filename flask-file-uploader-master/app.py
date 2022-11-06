@@ -12,6 +12,8 @@ from werkzeug.datastructures import FileStorage
 import final_measurement
 from lib.upload_file import uploadfile
 
+import requests
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['UPLOAD_FOLDER'] = 'resources/images/'
@@ -25,6 +27,7 @@ bootstrap = Bootstrap(app)
 
 gender = ""
 age = ""
+baby_url = ""
 
 
 def allowed_file(filename):
@@ -57,14 +60,34 @@ def create_thumbnail(image):
 def get_arguments():
     global gender
     global age
+    global baby_url
     gender = request.form.get('Genero')
     age = request.form.get('idade')
+    baby_url = request.form.get('baby_url')
     print(gender)
     print(age)
+    print(baby_url)
+    baby_image = get_baby_image()
+    coin_image = get_coin_image()
+    final_measurement.get_circumference(baby_image, coin_image, age, gender)
     return render_template('index.html')
 
 
-@app.route("/upload", methods=['GET', 'POST'])
+def get_baby_image():
+    url_for_baby = baby_url
+    request_baby = requests.get(url_for_baby, params={'user': 'TCC-MACKENZIE', 'password': '121ce9674b754d190f07198f11762a59'})
+    print(request_baby.content)
+    return request_baby.content
+
+
+def get_coin_image():
+    url_for_coin = 'https://cdn-5gfijc20.files-simplefileupload.com/static/blobs/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBN1kzQVE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--7c011fb4ec16cefe634f4146d57a0f628834ec62/moeda.jpg'
+    request_coin = requests.get(url_for_coin, auth=('TCC-MACKENZIE', '121ce9674b754d190f07198f11762a59'))
+    print(request_coin.content)
+    return request_coin.content
+
+
+'''@app.route("/upload", methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         files = request.files['file']
@@ -105,7 +128,7 @@ def upload():
 
         return simplejson.dumps({"files": file_display})
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index'))'''
 
 
 @app.route("/delete/<string:filename>", methods=['DELETE'])
