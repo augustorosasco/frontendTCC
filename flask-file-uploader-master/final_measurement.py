@@ -67,4 +67,4 @@ def get_circumference(images, months, gender):
     flash(message4)
     baby_heights.clear()
     baby_widths.clear()
-    request_delete_baby = requests.delete(images[0], auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
+    requests.delete("https://app.simplefileupload.com/api/v1/file?url={}".format(images[0]), auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
