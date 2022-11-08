@@ -12,6 +12,12 @@ from werkzeug.datastructures import FileStorage
 import final_measurement
 from lib.upload_file import uploadfile
 
+<<<<<<< Updated upstream
+=======
+import requests
+import json
+
+>>>>>>> Stashed changes
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['UPLOAD_FOLDER'] = 'resources/images/'
@@ -25,6 +31,10 @@ bootstrap = Bootstrap(app)
 
 gender = ""
 age = ""
+<<<<<<< Updated upstream
+=======
+files_url = "https://app.simplefileupload.com//api/v1/files"
+>>>>>>> Stashed changes
 
 
 def allowed_file(filename):
@@ -61,10 +71,34 @@ def get_arguments():
     age = request.form.get('idade')
     print(gender)
     print(age)
+<<<<<<< Updated upstream
     return render_template('index.html')
 
 
 @app.route("/upload", methods=['GET', 'POST'])
+=======
+    files_uploaded = get_files_uploaded()
+    final_measurement.get_circumference(files_uploaded, int(age), gender)
+    return render_template('index.html')
+
+
+def get_files_uploaded():
+    files = []
+    request_baby = requests.get(files_url, auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
+    for x in request_baby.json().get('data'):
+        if x.get('attributes').get('filename') != 'moeda':
+            baby_url = x.get('attributes').get('cdn-url')
+            files.append(baby_url)
+            print(baby_url)
+        else:
+            coin_url = x.get('attributes').get('cdn-url')
+            files.append(coin_url)
+            print(coin_url)
+    return files
+
+
+'''@app.route("/upload", methods=['GET', 'POST'])
+>>>>>>> Stashed changes
 def upload():
     if request.method == 'POST':
         files = request.files['file']

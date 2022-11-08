@@ -1,13 +1,25 @@
+import requests
+
 import dimensions
 import concatenate
 import thresh
 import math
 import cv2
-import os
-import app
 from flask import flash
+import urllib.request
+import numpy as np
 
 
+def get_circumference(images, months, gender):
+    baby_img_url = urllib.request.urlopen(images[0])
+    baby_arr = np.asarray(bytearray(baby_img_url.read()), dtype=np.uint8)
+    baby_img = cv2.imdecode(baby_arr, -1)
+
+    coin_img_url = urllib.request.urlopen(images[1])
+    coin_arr = np.asarray(bytearray(coin_img_url.read()), dtype=np.uint8)
+    coin_img = cv2.imdecode(coin_arr, -1)
+
+<<<<<<< Updated upstream
 def get_circumference(image_name, months, gender):
     coin_img = cv2.imread('resources/reference/moeda.jpg')
     image_path = 'resources/images/' + image_name
@@ -24,6 +36,17 @@ def get_circumference(image_name, months, gender):
     cv2.imwrite('resources/images_processed/merged_with_inv_coin.jpg', concatenated_image_with_inverted_coin)
     concatenated_image_with_inverted_baby = concatenate.concat_tile_resize([[coin_img, final_baby_inv_img]])
     cv2.imwrite('resources/images_processed/merged_with_inv_baby.jpg', concatenated_image_with_inverted_baby)
+=======
+    flipped_baby = cv2.flip(baby_img, 1)
+    baby_inv = cv2.bitwise_not(baby_img)
+    flipped_inv_baby = cv2.flip(baby_inv, 1)
+    inverted_coin = cv2.bitwise_not(coin_img)
+    to_calculate_dimensions = []
+
+    concatenated_image_normal = concatenate.concat_tile_resize([[coin_img, flipped_baby]])
+    concatenated_image_with_inverted_coin = concatenate.concat_tile_resize([[inverted_coin, flipped_baby]])
+    concatenated_image_with_inverted_baby = concatenate.concat_tile_resize([[coin_img, flipped_inv_baby]])
+>>>>>>> Stashed changes
 
     to_calculate_dimensions.append('resources/images_processed/merged_normal.jpg')
     to_calculate_dimensions.append(thresh.low('resources/images_processed/merged_with_inv_coin.jpg'))
@@ -63,3 +86,4 @@ def get_circumference(image_name, months, gender):
     flash(message4)
     baby_heights.clear()
     baby_widths.clear()
+    requests.delete("https://app.simplefileupload.com/api/v1/file?url={0}".format(images[0]), auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
