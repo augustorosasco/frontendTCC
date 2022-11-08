@@ -12,12 +12,9 @@ from werkzeug.datastructures import FileStorage
 import final_measurement
 from lib.upload_file import uploadfile
 
-<<<<<<< Updated upstream
-=======
 import requests
 import json
 
->>>>>>> Stashed changes
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['UPLOAD_FOLDER'] = 'resources/images/'
@@ -31,10 +28,7 @@ bootstrap = Bootstrap(app)
 
 gender = ""
 age = ""
-<<<<<<< Updated upstream
-=======
 files_url = "https://app.simplefileupload.com//api/v1/files"
->>>>>>> Stashed changes
 
 
 def allowed_file(filename):
@@ -71,14 +65,6 @@ def get_arguments():
     age = request.form.get('idade')
     print(gender)
     print(age)
-<<<<<<< Updated upstream
-    return render_template('index.html')
-
-
-@app.route("/upload", methods=['GET', 'POST'])
-=======
-    files_uploaded = get_files_uploaded()
-    final_measurement.get_circumference(files_uploaded, int(age), gender)
     return render_template('index.html')
 
 
@@ -95,51 +81,6 @@ def get_files_uploaded():
             files.append(coin_url)
             print(coin_url)
     return files
-
-
-'''@app.route("/upload", methods=['GET', 'POST'])
->>>>>>> Stashed changes
-def upload():
-    if request.method == 'POST':
-        files = request.files['file']
-
-        if files:
-            filename = secure_filename(files.filename)
-            filename = gen_file_name(filename)
-            mime_type = files.content_type
-
-            if not allowed_file(files.filename):
-                result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
-
-            else:
-                uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                print(filename)
-                files.save(uploaded_file_path)
-                final_measurement.get_circumference(filename, int(age), gender)
-
-                if mime_type.startswith('image'):
-                    create_thumbnail(filename)
-
-                size = os.path.getsize(uploaded_file_path)
-
-                result = uploadfile(name=filename, type=mime_type, size=size)
-
-            return simplejson.dumps({"files": [result.get_file()]}), filename
-
-    if request.method == 'GET':
-        files = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if
-                 os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], f)) and f not in IGNORED_FILES]
-
-        file_display = []
-
-        for f in files:
-            size = os.path.getsize(os.path.join(app.config['UPLOAD_FOLDER'], f))
-            file_saved = uploadfile(name=f, size=size)
-            file_display.append(file_saved.get_file())
-
-        return simplejson.dumps({"files": file_display})
-
-    return redirect(url_for('index'))
 
 
 @app.route("/delete/<string:filename>", methods=['DELETE'])
