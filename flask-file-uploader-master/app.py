@@ -65,6 +65,8 @@ def get_arguments():
     age = request.form.get('idade')
     print(gender)
     print(age)
+    files_uploaded = get_files_uploaded()
+    final_measurement.get_circumference(files_uploaded, int(age), gender)
     return render_template('index.html')
 
 
@@ -72,7 +74,7 @@ def get_files_uploaded():
     files = []
     request_baby = requests.get(files_url, auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
     for x in request_baby.json().get('data'):
-        if x.get('attributes').get('filename') != 'moeda':
+        if x.get('attributes').get('filename') == 'bebe':
             baby_url = x.get('attributes').get('cdn-url')
             files.append(baby_url)
             print(baby_url)

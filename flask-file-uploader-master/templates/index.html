@@ -67,11 +67,20 @@
         </select>
 
         <br>
+        <script src="https://app.simplefileupload.com/buckets/121ce9674b754d190f07198f11762a59.js"></script>
+        <input type="hidden" name="baby_url" id="baby_url" class="simple-file-upload">
+        <script>
+            const el = document.getElementById("baby_url");
+            el.addEventListener("fileUploadSuccess", function (e) {
+                console.log(this.value)
+                console.log(e.detail.files)
+            });
+        </script>
         <br>
 
-        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: rgb(136, 143, 143)">
-            <i style="color: white" class="glyphicon glyphicon-ok"></i>
-            <span style="color: white">Salvar informações</span>
+        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: rgb(60, 179, 113)">
+            <i style="color: white" class="glyphicon glyphicon-refresh"></i>
+            <span style="color: white">Processar Resultados</span>
         </button>
     </form>
     <br>
@@ -79,36 +88,13 @@
         function sendAlert() {
             var idade = document.getElementById("idade").value;
             var genero = document.getElementById("Genero").value;
-            alert("Idade da criança selecionada: '" + idade + "' mês(es).\n\n Sexo da criança selecionado: '" + genero + "'.\n\n Adicione uma imagem para começar a medição.");
+            alert("Idade da criança selecionada: '" + idade + "' mês(es).\n\n
+                    Sexo da criança selecionado: '" + genero + "'.\n\n
+                    Calculando as medidas da criança...");
         }
     </script>
 
     <br>
-
-    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-        <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
-        <div class="row fileupload-buttonbar">
-            <div class="col-lg-7">
-                <span id="addImage" class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Adicionar imagem</span>
-                    <input type="file" name="file" multiple>
-                </span>
-                <button id="deleteImage" type="button" class="btn btn-danger delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Deletar imagem</span>
-                </button>
-                <span class="fileupload-process"></span>
-            </div>
-            <div class="col-lg-5 fileupload-progress fade">
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                </div>
-                <div class="progress-extended">&nbsp;</div>
-            </div>
-        </div>
-        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-    </form>
 
 
     <div class="panel panel-default" style="background-color: rgb(136, 143, 143)">
