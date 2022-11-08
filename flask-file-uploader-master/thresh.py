@@ -6,6 +6,6 @@ def apply_low(image):
     return low
 
 
-def high(image):
+def apply_high(image):
     th, high = cv2.threshold(image, 185, 255, cv2.THRESH_BINARY)
     return high
