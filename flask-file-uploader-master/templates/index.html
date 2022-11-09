@@ -5,11 +5,27 @@
 
 <body style="background-color:rgb(181, 196, 196);">
 <div class="container">
-    <h1>USO DA VISÃO COMPUTACIONAL PARA A DETECÇÃO DE ASSIMETRIAS CRANIANAS EM RECÉM-NASCIDOS</h1>
+    <h1 align="center">USO DA VISÃO COMPUTACIONAL PARA A DETECÇÃO DE ASSIMETRIAS CRANIANAS EM RECÉM-NASCIDOS</h1>
     <br>
     <style rel="stylesheet" type="text/css">
         blockquote {
             border-color: rgb(136, 143, 143)
+        }
+        #results {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #delete {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #idade {
+            border-radius: 12px;
+        }
+        #Genero {
+            border-radius: 12px;
         }
     </style>
 
@@ -28,61 +44,72 @@
             </ul>
     </blockquote>
     <br>
+    <div class="formImage" align="center">
+        <form class="form-inline" method="POST" action="{{url_for('get_arguments')}}">
+            <label for="idade">Selecione a idade do recém-nascido (Meses):</label>
+            <select name="idade" id="idade">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            </select>
 
-    <form class="form-inline" method="POST" action="{{url_for('get_arguments')}}">
-        <label for="idade">Selecione a idade do recém-nascido (Meses):</label>
-        <select name="idade" id="idade">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-        <option value="15">15</option>
-        <option value="16">16</option>
-        <option value="17">17</option>
-        <option value="18">18</option>
-        <option value="19">19</option>
-        <option value="20">20</option>
-        <option value="21">21</option>
-        <option value="22">22</option>
-        <option value="23">23</option>
-        <option value="24">24</option>
-        </select>
+            <br>
 
-        <br>
+            <label for="Genero">Selecione o sexo do recém-nascido</label>
+            <select name="Genero" id="Genero">
+            <option value="Feminino">Feminino</option>
+            <option value="Masculino">Masculino</option>
+            </select>
 
-        <label for="Genero">Selecione o sexo do recém-nascido</label>
-        <select name="Genero" id="Genero">
-        <option value="Feminino">Feminino</option>
-        <option value="Masculino">Masculino</option>
-        </select>
+            <br>
+            <br>
+            <script src="https://app.simplefileupload.com/buckets/121ce9674b754d190f07198f11762a59.js"></script>
+            <input type="hidden" name="baby_url" id="baby_url" class="simple-file-upload" data-accepted=".jpeg,.jpg,.png">
+            <script>
+                const el = document.getElementById("baby_url");
+                el.addEventListener("fileUploadSuccess", function (e) {
+                    console.log(this.value)
+                    console.log(e.detail.files)
+                });
+            </script>
+            <br>
 
-        <br>
-        <script src="https://app.simplefileupload.com/buckets/121ce9674b754d190f07198f11762a59.js"></script>
-        <input type="hidden" name="baby_url" id="baby_url" class="simple-file-upload">
-        <script>
-            const el = document.getElementById("baby_url");
-            el.addEventListener("fileUploadSuccess", function (e) {
-                console.log(this.value)
-                console.log(e.detail.files)
-            });
-        </script>
-        <br>
+            <button id="results" type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: rgb(60, 179, 113)">
+                <i style="color: white" class="glyphicon glyphicon-refresh"></i>
+                <span style="color: white"><strong>Processar Resultados</strong></span>
+            </button>
 
-        <button type="submit" class="btn btn-default" onclick="sendAlert();" style="background-color: rgb(60, 179, 113)">
-            <i style="color: white" class="glyphicon glyphicon-refresh"></i>
-            <span style="color: white">Processar Resultados</span>
-        </button>
-    </form>
+            <br>
+            <br>
+        </form>
+        <form class="form-inline2" method="POST" action="{{url_for('remove_baby_at_any_time')}}">
+            <button id="delete" type="submit" class="btn btn-delete" style="background-color: rgb(255, 0, 0)">
+                <i style="color: white" class="glyphicon glyphicon-remove"></i>
+                <span style="color: white"><strong>Remover Imagem</strong></span>
+            </button>
+        </form>
+    </div>
     <br>
     <script>
         function sendAlert() {
@@ -99,24 +126,17 @@
 
     <div class="panel panel-default" style="background-color: rgb(136, 143, 143)">
         <div class="panel-heading" style="background-color: rgb(136, 143, 143)">
-            <h3 style="color: black " class="panel-title"><strong>Resultados</strong></h3>
-            <button style="background-color: rgb(136, 143, 143)" id="result-btn" type="button" onclick="window.location.reload();" class="btn btn-result results">
-                <script>
-                    document.getElementById("result-btn").style.display="none";
-                </script>
-                    <i style="color: white" class="glyphicon glyphicon-eye-open"></i>
-                    <span style="color: white">Exibir</span>
-                </button>
+            <h3 style="color: black " class="panel-title" align="center"><strong>Resultados</strong></h3>
         </div>
             <div class="panel-display">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages%}
 
-                            <p>{{message}}</p>
-                            <p>{{message2}}</p>
-                            <p>{{message3}}</p>
-                            <p>{{message4}}</p>
+                            <p style="color: black"><strong>{{message}}</strong></p>
+                            <p style="color: black"><strong>{{message2}}</strong></p>
+                            <p style="color: black"><strong>{{message3}}</strong></p>
+                            <p style="color: black"><strong>{{message4}}</strong></p>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}

@@ -20,20 +20,23 @@ def get_circumference(images, months, gender):
     coin_img = cv2.imdecode(coin_arr, -1)
 
     flipped_baby = cv2.flip(baby_img, 1)
+    rotated_baby = cv2.rotate(flipped_baby, cv2.ROTATE_90_CLOCKWISE)
     baby_inv = cv2.bitwise_not(baby_img)
     flipped_inv_baby = cv2.flip(baby_inv, 1)
+    rotated_inv_baby = cv2.rotate(flipped_inv_baby, cv2.ROTATE_90_CLOCKWISE)
     inverted_coin = cv2.bitwise_not(coin_img)
     to_calculate_dimensions = []
 
-    concatenated_image_normal = concatenate.concat_tile_resize([[coin_img, flipped_baby]])
+    #concatenated_image_normal = concatenate.concat_tile_resize([[coin_img, rotated_baby]])
     concatenated_image_with_inverted_coin = concatenate.concat_tile_resize([[inverted_coin, flipped_baby]])
     concatenated_image_with_inverted_baby = concatenate.concat_tile_resize([[coin_img, flipped_inv_baby]])
 
-    to_calculate_dimensions.append(concatenated_image_normal)
+    #to_calculate_dimensions.append(concatenated_image_normal)
     to_calculate_dimensions.append(thresh.apply_low(concatenated_image_with_inverted_coin))
     to_calculate_dimensions.append(thresh.apply_high(concatenated_image_with_inverted_baby))
 
     final_measurements = dimensions.calculate_dimensions(to_calculate_dimensions, months, gender)
+    requests.delete("https://app.simplefileupload.com/api/v1/file?url={}".format(images[0]), auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
     print('widths: ', final_measurements[0])
     print('heights: ', final_measurements[1])
 
@@ -67,4 +70,3 @@ def get_circumference(images, months, gender):
     flash(message4)
     baby_heights.clear()
     baby_widths.clear()
-    requests.delete("https://app.simplefileupload.com/api/v1/file?url={}".format(images[0]), auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
