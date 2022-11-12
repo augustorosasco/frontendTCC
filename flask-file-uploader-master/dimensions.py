@@ -65,11 +65,12 @@ def calculate_dimensions(images, months, gender):
             dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
             dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
-            pixels_per_metric = calculate.measures(dA, months, gender)
+            pixels_per_metric_by_height = calculate.measures(dA, months, gender)
+            pixels_per_metric_by_width = calculate.measures(dB, months, gender)
 
-            height = dA / pixels_per_metric
+            height = dA / pixels_per_metric_by_width
             print('Altura: ', height)
-            width = dB / pixels_per_metric
+            width = dB / pixels_per_metric_by_height
             print('Largura: ', width)
 
             widths.append(width)
@@ -77,10 +78,10 @@ def calculate_dimensions(images, months, gender):
 
             cv2.putText(orig, '{:.1f}cm'.format(height),
                         (int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.65, (255, 255, 255), 2)
+                        0.65, (255, 165, 0), 2)
             cv2.putText(orig, '{:.1f}cm'.format(width),
                         (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.65, (255, 255, 255), 2)
-            '''cv2.imshow('Image', orig)
-            cv2.waitKey(0)'''
+                        0.65, (255, 165, 0), 2)
+            cv2.imshow('Image', orig)
+            cv2.waitKey(0)
     return widths, heights
