@@ -80,6 +80,6 @@ def calculate_dimensions(images, months, gender):
             cv2.putText(orig, '{:.1f}cm'.format(final_dB),
                         (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
                         0.65, (255, 165, 0), 2)
-            cv2.imshow('Image', orig)
-            cv2.waitKey(0)
+            '''cv2.imshow('Image', orig)
+            cv2.waitKey(0)'''
     return widths, heights
