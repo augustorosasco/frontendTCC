@@ -12,7 +12,7 @@ def apply_high_thresh_for_perpendicular(image):
 
 
 def apply_low_for_diagonals(image):
-    th, low = cv2.threshold(image, 60, 255, cv2.THRESH_BINARY)
+    th, low = cv2.threshold(image, 70, 255, cv2.THRESH_BINARY)
     return low
 
 

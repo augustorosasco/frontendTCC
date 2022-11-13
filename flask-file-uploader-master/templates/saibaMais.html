@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}File Uploader{% endblock %}
+
+{% block page_content %}
+
+<body style="background-color:rgb(181, 196, 196);">
+<div class="container">
+    <h1 align="center">SAIBA MAIS</h1>
+    <h1 align="center">USO DA VISÃO COMPUTACIONAL PARA A DETECÇÃO DE ASSIMETRIAS CRANIANAS EM RECÉM-NASCIDOS</h1>
+    <br>
+    <style rel="stylesheet" type="text/css">
+        blockquote {
+            border-color: rgb(136, 143, 143)
+        }
+        #results {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #delete {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #idade {
+            border-radius: 12px;
+        }
+        #Genero {
+            border-radius: 12px;
+        }
+    </style>
+
+    <blockquote>
+        <p>As assimetrias cranianas (AC), são deformidades que atingem milhares de recém-nascidos por ano no Brasil. Estas têm como principal causa a longa duração do apoio da cabeça numa mesma posição quando a criança está deitada, sendo este intenso em um ponto específico do crânio. Um exemplo seria quando a criança fica longos períodos deitada de barriga para cima, achatando a parte de trás de sua cabeça, ou também, quando a criança se deita apenas de um lado, havendo a possibilidade de achatar este lado do crânio. As assimetrias podem também ocorrer de maneira intrauterina, sendo possível identificá-las durante os meses finais da gravidez. De acordo com o hospital Israelita A. Einstein, uma destas deformidades, a Plagiocefalia, afeta mais de 150 mil crianças brasileiras anualmente.
+        </p>
+    </blockquote>
+
+    <blockquote>
+        <h4><b>Tipos de assimetrias cranianas:</b></h4>
+        <ul>
+            <li><b>Plagiocefalia:</b> Pode ocorrer de maneira congênita e de maneira posicional, a qual se ocasiona em razão do posicionamento da cabeça de uma mesma maneira, no berço, carrinho etc.</li>
+            <li><b>Braquicefalia:</b> É uma anomalia congênita a qual afeta a junção dos ossos do crânio, em que a região posterior é afetada.</li>
+            <li><b>Escafocefalia:</b> Ocorre quando há a união precoce dos ossos do crânio, impedindo que a cabeça cresça para os lados, deixando-a cabeça longa e achatada.</li>
+            </ul>
+    </blockquote>
+
+    <blockquote>
+        <h4><b>Cálculos e Referências:</b></h4>
+
+        <img src="static/img/calculo.png" class="center" width="1000" height="500">
+
+        <p>Fonte: Article "Two-Dimensional Image-Based Screening Tool for Infants with Positional Cranial Deformities: A Machine Learning Approach" </p>
+        <ul>
+            <li>
+                Quando ocorre o processamento da imagem do bebê, fazemos tentativas para obter as linhas perpendiculares e as diagonais da cabeça do mesmo.
+            </li>
+            <li>
+                Com as medidas das linhas em mãos, utilizamos as perpendiculares na fórmula da esquerda para obter o 'Índice de Proporção Craniana' e, as diagonais, são utilizadas na fórmula da direita para obter o 'Índice de Assimetria da Abóbada Craniana'.
+            </li>
+            <li>
+                Assim, obtemos a severidade, respectivamente, das assimetrias chamadas de 'Braquicefalia' e 'Plagiocefalia'.
+            </li>
+        </ul>
+    </blockquote>
+
+    <blockquote>
+        <p><strong>Para calcular a 'Circunferência Craniana' de seu bebê, realizamos os seguintes cálculos:</strong></p>
+        <ul>
+            <li>
+                Primeiramente, consideramos a cabeça de seu bebê como uma circunferência.
+            </li>
+            <li>
+                Segundamente, obtemos a 'Altura' e a 'Largura' da mesma.
+            </li>
+            <li>
+                Por fim, utilizamos a fórmula: <i>C = π x D</i> (C = Circunferência e D = Diâmetro), onde substituímos D uma vez pela 'Altura' e uma vez pela 'Largura'.
+            </li>
+            <li>
+                Desta forma, obtemos duas medidas de circunferência. Para obter a medida final, as utilizamos para realizar a média aritmética de ambas e exibimos o resultado na tela.
+            </li>
+        </ul>
+    </blockquote>
+
+</div>
+</body>
+{% endblock %}

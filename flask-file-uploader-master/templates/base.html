@@ -2,25 +2,26 @@
 
 {% block title %}File Uploader{% endblock %}
 
-{% block head %}
-{{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}">
-{% endblock %}
-
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">TRABALHO CONCLUSAO DE CURSO II [Turma 08J02] - 2022/2</a>
+    <div class="center">
+        <div class="navbar-header" class="center">
+            <a class="navbar-brand" href="/">Home</a>
         </div>
+        <div class="navbar-header" class="center">
+            <a class="navbar-brand">-</a>
+        </div>
+        <div class="navbar-header" class="center">
+            <a class="navbar-brand" href="/SaibaMais">Saiba Mais</a>
+        </div>
+        <div class="navbar-header" class="center">
+            <a class="navbar-brand">-</a>
+        </div>
+        <div class="navbar-header" class="center">
+            <a class="navbar-brand" href="/Example">Exemplo</a>
+        </div>
+    </div>
     </div>
 </div>
 {% endblock %}

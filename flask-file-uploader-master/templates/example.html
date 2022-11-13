@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}File Uploader{% endblock %}
+
+{% block page_content %}
+
+<body style="background-color:rgb(181, 196, 196);">
+<div class="container">
+    <h1 align="center">EXEMPLO DE IMAGEM</h1>
+    <h1 align="center">USO DA VISÃO COMPUTACIONAL PARA A DETECÇÃO DE ASSIMETRIAS CRANIANAS EM RECÉM-NASCIDOS</h1>
+    <br>
+    <style rel="stylesheet" type="text/css">
+        blockquote {
+            border-color: rgb(136, 143, 143)
+        }
+        #results {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #delete {
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+        #idade {
+            border-radius: 12px;
+        }
+        #Genero {
+            border-radius: 12px;
+        }
+    </style>
+
+    <div id="image" align="center">
+        <blockquote>
+
+            <img src="static/img/example.jpg" width="300" height="300">
+
+        </blockquote>
+    </div>
+
+    <blockquote>
+        <ul>
+            <li>
+                 Note que nesta imagem, o bebê está deitado sobre um lençol branco, de frente para um fundo branco e com um gorro preto.
+            </li>
+            <li>
+                Tente replicar esta foto com o seu bebê para resultados mais precisos.
+            </li>
+        </ul>
+    </blockquote>
+
+</div>
+</body>
+{% endblock %}

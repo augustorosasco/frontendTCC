@@ -4,7 +4,7 @@ from imutils import perspective
 from imutils import contours
 import numpy as np
 import imutils
-import calculate
+from image_processor import calculate
 
 widths = []
 heights = []
@@ -65,21 +65,19 @@ def calculate_dimensions(images, months, gender):
             dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
             dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
-            pixels_per_metric_by_height = calculate.measures(dA, months, gender)
-            pixels_per_metric_by_width = calculate.measures(dB, months, gender)
+            pixels_per_metric_by_dA = calculate.measures(dA, months, gender)
+            pixels_per_metric_by_dB = calculate.measures(dB, months, gender)
 
-            height = dA / pixels_per_metric_by_width
-            print('Altura: ', height)
-            width = dB / pixels_per_metric_by_height
-            print('Largura: ', width)
+            final_dA = dA / pixels_per_metric_by_dB
+            final_dB = dB / pixels_per_metric_by_dA
 
-            widths.append(width)
-            heights.append(height)
+            widths.append(final_dB)
+            heights.append(final_dA)
 
-            cv2.putText(orig, '{:.1f}cm'.format(height),
+            cv2.putText(orig, '{:.1f}cm'.format(final_dA),
                         (int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
                         0.65, (255, 165, 0), 2)
-            cv2.putText(orig, '{:.1f}cm'.format(width),
+            cv2.putText(orig, '{:.1f}cm'.format(final_dB),
                         (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
                         0.65, (255, 165, 0), 2)
             cv2.imshow('Image', orig)

@@ -1,4 +1,4 @@
-import dimensions
+from image_processor import dimensions
 
 
 def calculate_results(images_to_be_processed, months, gender):
@@ -8,13 +8,13 @@ def calculate_results(images_to_be_processed, months, gender):
 
 def calculate_cranial_ratio(widths, heights):
     cranial_ratio = (widths / heights) * 100
-    if cranial_ratio < 75:
-        return 'Nenhum índice de Braquicefalia', cranial_ratio
-    elif 75.0 <= cranial_ratio <= 84.9:
-        return 'Normalidade', cranial_ratio
+    if 75.0 <= cranial_ratio <= 84.9:
+        return cranial_ratio, 'Normalidade'
     elif 85.0 <= cranial_ratio <= 94.9:
-        return 'Braquicefalia Suave', cranial_ratio
+        return cranial_ratio, 'Braquicefalia Suave'
     elif 95.0 <= cranial_ratio <= 104.9:
-        return 'Braquicefalia Moderada', cranial_ratio
+        return cranial_ratio, 'Braquicefalia Moderada'
     elif cranial_ratio >= 105.0:
-        return 'Braquicefalia Severa', cranial_ratio
+        return cranial_ratio, 'Braquicefalia Severa'
+    else:
+        return cranial_ratio, 'Nenhum indício de Braquicefalia'

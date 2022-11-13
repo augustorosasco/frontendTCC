@@ -1,14 +1,12 @@
 import requests
 
-import diagonal_results
-import concatenate
-import perpendicular_results
-import thresh
-import math
+from image_processor import diagonal_results, concatenate, perpendicular_results, thresh
 import cv2
+import math
 from flask import flash
 import urllib.request
 import numpy as np
+import logging
 
 calculate_perpendicular_dimensions = []
 calculate_diagonals_dimensions = []
@@ -51,8 +49,8 @@ def get_circumference(images, months, gender):
     for i in range(1, len(heights), 2):
         baby_heights.append(heights[i])
 
-    print(baby_widths)
-    print(baby_heights)
+    logging.debug(baby_widths)
+    logging.debug(baby_heights)
 
     baby_sum_widths = math.fsum(baby_widths) / len(baby_widths)
     baby_sum_heights = math.fsum(baby_heights) / len(baby_heights)
@@ -61,21 +59,21 @@ def get_circumference(images, months, gender):
     baby_circ_by_height = (math.fsum(baby_heights) / len(baby_heights)) * 3.14
 
     final_circ = (baby_circ_by_width + baby_circ_by_height) / 2
-    print('C according to heights = ', round(baby_circ_by_height))
-    print('C according to width = ', round(baby_circ_by_width))
-    print('Final C = ', round(final_circ))
+    logging.debug('C according to heights = ', round(baby_circ_by_height))
+    logging.debug('C according to widths = ', round(baby_circ_by_width))
+    logging.debug('Final C = ', round(final_circ))
 
     cranial_info = perpendicular_results.calculate_cranial_ratio(baby_sum_widths, baby_sum_heights)
 
     diagonal_measurements = diagonal_results.calculate_results(calculate_diagonals_dimensions, months, gender)
 
     baby_diagonal_A = []
-    diagonal_A = diagonal_measurements[1]
+    diagonal_A = diagonal_measurements[0]
     for i in range(1, len(diagonal_A), 2):
         baby_diagonal_A.append(diagonal_A[i])
 
     baby_diagonal_B = []
-    diagonal_B = diagonal_measurements[0]
+    diagonal_B = diagonal_measurements[1]
     for i in range(1, len(diagonal_B), 2):
         baby_diagonal_B.append(diagonal_B[i])
 
@@ -93,10 +91,18 @@ def get_circumference(images, months, gender):
     flash(message2)
     message3 = 'A altura da cabeça é de aproximadamente: {0} cm.'.format('{:.2f}'.format(baby_sum_heights))
     flash(message3)
-    message4 = 'O índice cefálico de seu bebê é de aproximadamente: "{0}". Indicando: "{1}"'.format('{:.2f}'.format(cranial_info[1]), cranial_info[0])
-    flash(message4)
-    message5 = 'O índice de assimetria cranial de seu bebê é de aproximadamente: "{0}". Indicando: "{1}"'.format('{:.2f}'.format(asymmetry_index_results[0]), asymmetry_index_results[1])
-    flash(message5)
+    if cranial_info[0] > 0:
+        message4 = 'O índice de proporção craniana de seu bebê é de aproximadamente: "{0}". Indicando: "{1}"'.format('{:.2f}'.format(cranial_info[0]), cranial_info[1])
+        flash(message4)
+    else:
+        message4 = 'Não foi possível calcular o índice de proporção craniana de seu bebê. Envie outra imagem de seu bebê seguindo as dicas mencionadas acima.'
+        flash(message4)
+    if asymmetry_index_results[0] > 0:
+        message5 = 'O índice de assimetria da abóbada craniana de seu bebê é de aproximadamente: "{0}". Indicando: "{1}"'.format('{:.2f}'.format(asymmetry_index_results[0]), asymmetry_index_results[1])
+        flash(message5)
+    else:
+        message5 = 'Não foi possível calcular o índice de assimetria da abóbada craniana de seu bebê. Envie outra imagem de seu bebê seguindo as dicas mencionadas acima.'
+        flash(message5)
     message6 = 'Informe estas medidas para o profissional da saúde responsável pela sua criança para confirmar o diagnóstico.'
     flash(message6)
 
