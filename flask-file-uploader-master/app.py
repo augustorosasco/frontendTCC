@@ -37,7 +37,7 @@ def get_arguments():
                 files_uploaded.reverse()
                 last_baby_img = files_uploaded.pop(0)
                 for t in range(0, len(files_uploaded)):
-                    remove_baby_at_any_time()
+                    remove_extra_images(files_uploaded)
                 new_images = [last_baby_img, coin_img]
                 final_measurement.get_circumference(new_images, int(age), gender)
     else:
@@ -63,7 +63,7 @@ def get_files_uploaded():
 
 
 @app.route('/deleteImage', methods=['POST'])
-def remove_baby_at_any_time():
+def remove_baby_at_button_press():
     files = []
     request_baby = requests.get(files_url,
                                 auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
@@ -92,6 +92,12 @@ def remove_baby_at_any_time():
         message = 'Erro: Não há imagens para remover.'
         flash(message)
     return render_template('index.html')
+
+
+def remove_extra_images(files_to_delete):
+    for i in range(0, len(files_to_delete)):
+        requests.delete("https://app.simplefileupload.com/api/v1/file?url={}".format(files_to_delete[i]),
+                        auth=('p7227b3b4018aa3ece264cc9d6705d297', 's7a93e13256c625f12581fd203020bd9e'))
 
 
 @app.route('/', methods=['GET', 'POST'])
