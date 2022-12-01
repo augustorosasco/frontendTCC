@@ -40,6 +40,7 @@ def get_arguments():
                     remove_extra_images(files_uploaded)
                 new_images = [last_baby_img, coin_img]
                 final_measurement.get_circumference(new_images, int(age), gender)
+                break
     else:
         message = 'Nenhuma imagem enviada! Envie uma imagem para que os cálculos possam ser realizados.'
         flash(message)
